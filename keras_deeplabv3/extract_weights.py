@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.utils import get_file
 
-from .utils import prefix_home_keras
+from .utils import prepend_home_keras
 
 
 def get_xception_filename(key):
@@ -58,8 +58,8 @@ def extract_tensors_from_checkpoint_file(filename, output_folder='weights', net_
         filename: TF checkpoint file
         output_folder: where to save the output numpy array files
     """
-    filename = prefix_home_keras(filename)
-    output_folder = prefix_home_keras(output_folder)
+    filename = prepend_home_keras(filename)
+    output_folder = prepend_home_keras(output_folder)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
