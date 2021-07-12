@@ -3,7 +3,9 @@ from __future__ import print_function
 import os
 import numpy as np
 import tensorflow as tf
-from keras.utils.data_utils import get_file
+from tensorflow.keras.utils import get_file
+
+from .utils import prefix_home_keras
 
 
 def get_xception_filename(key):
@@ -56,6 +58,8 @@ def extract_tensors_from_checkpoint_file(filename, output_folder='weights', net_
         filename: TF checkpoint file
         output_folder: where to save the output numpy array files
     """
+    filename = prefix_home_keras(filename)
+    output_folder = prefix_home_keras(output_folder)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -79,21 +83,18 @@ MODEL_DIR = 'models'
 MODEL_SUBDIR = 'deeplabv3_pascal_trainval'
 MODEL_SUBDIR_MOBILE = 'deeplabv3_mnv2_pascal_trainval'
 
-if not os.path.exists(MODEL_DIR):
-    os.makedirs(MODEL_DIR)
-
 checkpoint_tar = get_file(
     'deeplabv3_pascal_trainval_2018_01_04.tar.gz',
     CKPT_URL,
     extract=True,
-    cache_subdir='',
+    cache_subdir=None,
     cache_dir=MODEL_DIR)
 
 checkpoint_tar_mobile = get_file(
     'deeplabv3_mnv2_pascal_trainval_2018_01_29.tar.gz',
     CKPT_URL_MOBILE,
     extract=True,
-    cache_subdir='',
+    cache_subdir=None,
     cache_dir=MODEL_DIR)
 
 checkpoint_file = os.path.join(MODEL_DIR, MODEL_SUBDIR, 'model.ckpt')

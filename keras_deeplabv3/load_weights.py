@@ -3,16 +3,18 @@ from __future__ import print_function
 import os
 import numpy as np
 from tqdm import tqdm
-from model import Deeplabv3
 
-MODEL_DIR = 'models'
+from .model import Deeplabv3
+from .utils import prefix_home_keras
+
+MODEL_DIR = prefix_home_keras('models')
 
 for backbone in ['mobilenetv2', 'xception']:
     print('Instantiating an empty Deeplabv3+ model...')
     model = Deeplabv3(input_shape=(512, 512, 3),
                       classes=21, backbone=backbone, weights=None)
 
-    WEIGHTS_DIR = 'weights/' + backbone
+    WEIGHTS_DIR = prefix_home_keras('weights/' + backbone)
     print('Loading weights from', WEIGHTS_DIR)
     for layer in tqdm(model.layers):
         if layer.weights:
